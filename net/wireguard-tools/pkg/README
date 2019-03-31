@@ -1,0 +1,32 @@
+$OpenBSD$
+
++------------------------------------------------------------------------------
+| Running WireGuard on OpenBSD
++------------------------------------------------------------------------------
+
+rc.d(8) script
+===============
+The included rc.d script is limited to supporting a single instance of
+WireGuard. Create your configuration with a .conf extension in /etc/wireguard
+and add the name of your configuration to wireguard_flags in
+/etc/rc.conf.local. The rc.d script supports both reloading the configuration
+during runtime and monitoring the run state of the daemon.
+
+For example, for a configuration file named wg0.conf, the file should be
+located at:
+
+    /etc/wireguard/wg0.conf
+
+The configuration file should have the appropriate permissions and ownership:
+
+    # chmod 0400 /etc/wireguard/wg0.conf
+    # chown root:wheel /etc/wireguard/wg0.conf
+
+The system daemon configuration database should be updated to start the
+WireGuard daemon with the name of the configuration:
+
+    # echo 'wireguard_flags="wg0"' >> /etc/rc.conf.local
+
+The daemon can then be controlled using normal rc.d mechanisms:
+
+    # /etc/rc.d/wireguard start

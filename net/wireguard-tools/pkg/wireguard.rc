@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# $OpenBSD$
+
+daemon="${TRUEPREFIX}/bin/wg-quick"
+
+. /etc/rc.d/rc.subr
+
+monitor="${TRUEPREFIX}/bin/bash ${daemon} up \"${daemon_flags}\""
+run_file="${LOCALSTATEDIR}/run/wireguard/${daemon_flags}.name"
+conf_file="${SYSCONFDIR}/wireguard/${daemon_flags}.conf"
+
+rc_start(){
+  ${rcexec} "${daemon} up \"${daemon_flags}\""
+}
+
+rc_check(){
+  ret=1
+  if [ -f "${run_file}" ]; then
+    iface=$(cat "${run_file}")
+    if [[ "${iface}" = tun+([0-9]) ]] ; then
+      pid=$(fstat | grep wireguard-go | grep "${iface}" | awk '{print $3}')
+      if [[ "${pid}" = +([0-9]) ]] ; then
+        ret=0
+      fi
+    fi
+  fi
+  return ${ret}
+}
+
+rc_stop(){
+  ${rcexec} "${daemon} down \"${daemon_flags}\""
+}
+
+rc_reload(){
+  iface=$(cat "${run_file}")
+  ${rcexec} "${TRUEPREFIX}/bin/wg setconf \"${iface}\" \"${conf_file}\""
+}
+
+rc_post(){
+  pkill -T "${daemon_rtable}" -xf "${TRUEPREFIX}/bin/bash ${daemon} up ${daemon_flags}"
+}
+
+rc_cmd $1
