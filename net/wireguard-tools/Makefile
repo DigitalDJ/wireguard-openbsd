@@ -1,7 +1,7 @@
 # $OpenBSD$
 COMMENT=               simple, fast and modern VPN implemented (tools)
 
-VERSION=               0.0.20190227
+VERSION=               0.0.20190406
 
 DISTNAME=              WireGuard-${VERSION}
 PKGNAME=               wireguard-tools-${VERSION}
