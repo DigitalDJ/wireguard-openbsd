@@ -1,7 +1,7 @@
 # $OpenBSD$
 COMMENT=               simple, fast and modern VPN implemented (Go)
 
-VERSION=               0.0.20181222
+VERSION=               0.0.20190409
 
 DISTNAME=              wireguard-go-${VERSION}
 
