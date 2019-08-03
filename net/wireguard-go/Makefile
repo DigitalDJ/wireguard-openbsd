@@ -1,7 +1,9 @@
 # $OpenBSD$
-COMMENT=               simple, fast and modern VPN implemented (Go)
+ONLY_FOR_ARCHS=        amd64
 
-VERSION=               0.0.20190409
+COMMENT=               fast, modern, secure VPN tunnel (Go)
+
+VERSION=               0.0.20190517
 
 DISTNAME=              wireguard-go-${VERSION}
 
@@ -12,9 +14,9 @@ EXTRACT_SUFX=          .tar.xz
 HOMEPAGE=              https://www.wireguard.com/
 
 # GPLv2
-PERMIT_PACKAGE_CDROM=  Yes
+PERMIT_PACKAGE=        Yes
 
-WANTLIB=               c
+WANTLIB=               c pthread
 
 USE_GMAKE=             Yes
 
